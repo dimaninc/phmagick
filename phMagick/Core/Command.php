@@ -3,11 +3,11 @@ namespace phMagick\Core;
 
 use phMagick\Core\Path;
 
-Class Command
+class Command
 {
     private $source;
     private $destination;
-    private $cmd = array();
+    private $_cmd = [];
     private $binaryBase = null;
 
     public function __construct($source = null, $destination = null)
@@ -18,9 +18,9 @@ Class Command
 
     /*
      *
-    * Getters and setters
-    *
-    */
+     * Getters and setters
+     *
+     */
 
     public function setBinaryBase(Path $path)
     {
@@ -41,7 +41,7 @@ Class Command
         $this->source = $this->toPathObject($source);
     }
 
-    public function getSource ()
+    public function getSource()
     {
         return $this->source;
     }
@@ -58,9 +58,9 @@ Class Command
 
     /*
      *
-    *  Logic
-    *
-    */
+     *  Logic
+     *
+     */
 
     /**
      *
@@ -70,20 +70,17 @@ Class Command
      * @param string $value the parameter value
      * param boolean $quotes the parameter value, if present will be surrounded by quotes
      */
-    function set($parameter, $value = '', $quotes = TRUE)
+    function set($parameter, $value = '', $quotes = true)
     {
-
-        if ( strlen($value) > 0 )
-        {
-            if ( TRUE == $quotes )
-            {
+        if (strlen($value) > 0) {
+            if (true == $quotes) {
                 $value = '"' . $value . '"';
             }
 
-            $value =  $value;
+            $value = $value;
         }
 
-        $this->_appendToCmd($parameter , $value);
+        $this->_appendToCmd($parameter, $value);
         return $this;
     }
 
@@ -94,10 +91,10 @@ Class Command
      */
     function file($file)
     {
-        return $this->set('', $file, TRUE);
+        return $this->set('', $file, true);
     }
 
-    function binary ($name)
+    function binary($name)
     {
         $binary = $this->getBinaryBase();
         $binary->add($name);
@@ -111,7 +108,7 @@ Class Command
      * @param string $value the parameter value
      * @param boolean $quotes the parameter value, if present will be surrounded by quotes
      */
-    function param($parameter, $value = '', $quotes = TRUE)
+    function param($parameter, $value = '', $quotes = true)
     {
         return $this->set($parameter, $value, $quotes);
     }
@@ -123,12 +120,12 @@ Class Command
      */
     function option($option)
     {
-        return $this->set($option, '', FALSE);
+        return $this->set($option, '', false);
     }
 
     /**
-    * returns the shell command, ready to be used in the command line
-    */
+     * returns the shell command, ready to be used in the command line
+     */
     function toString()
     {
         return trim(implode(' ', $this->_cmd));
@@ -141,14 +138,14 @@ Class Command
 
     /*
      *
-    *  Private methods
-    *
-    */
+     *  Private methods
+     *
+     */
     protected function toPathObject($path)
     {
-//         if (is_null($path)) {
-//             return new Path();
-//         }
+        //         if (is_null($path)) {
+        //             return new Path();
+        //         }
         if ($path instanceof \phMagick\Core\Path) {
             return $path;
         }
@@ -156,20 +153,18 @@ Class Command
         return new Path($path);
     }
 
-
     protected function _appendToCmd($cmd)
     {
         $args = func_get_args();
-        foreach ( $args as $cmd)
-        {
-//             if( is_a($cmd, 'phMagick\Core\Command') )
-//             {
-//                 $this->_cmd[] = $cmd-();
-//             }
-//             elseif (is_string ($cmd) && (strlen($cmd) > 0 ) )
-//             {
-                $this->_cmd[]= $cmd;
-//             }
+        foreach ($args as $cmd) {
+            //             if( is_a($cmd, 'phMagick\Core\Command') )
+            //             {
+            //                 $this->_cmd[] = $cmd-();
+            //             }
+            //             elseif (is_string ($cmd) && (strlen($cmd) > 0 ) )
+            //             {
+            $this->_cmd[] = $cmd;
+            //             }
         }
     }
 }

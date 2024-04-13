@@ -9,7 +9,6 @@ class Runner extends ActionCollection
 
     private $settings = null;
 
-
     public function getLogger()
     {
         return $this->getVar('logger');
@@ -26,7 +25,8 @@ class Runner extends ActionCollection
         return $settings->getInstance();
     }
 
-    private function getVar($name) {
+    private function getVar($name)
+    {
         if (is_null($this->$name)) {
             $class = 'phMagick\Core\\' . ucfirst($name);
             $this->$name = new $class();
@@ -37,10 +37,10 @@ class Runner extends ActionCollection
 
     function isWindows()
     {
-        return (!(strstr(PHP_OS, 'WIN') === FALSE));
+        return !(strstr(PHP_OS, 'WIN') === false);
     }
 
-    function debug($value = TRUE)
+    function debug($value = true)
     {
         $this->debug = $value;
         return $this;
@@ -54,7 +54,7 @@ class Runner extends ActionCollection
     private function execute(Command $cmdCls)
     {
         $ret = null;
-        $out = array();
+        $out = [];
         $log = $this->getLogger();
         $cmd = $cmdCls->toString();
 
@@ -64,7 +64,7 @@ class Runner extends ActionCollection
         }
 
         exec($cmd . ' 2>&1', $out, $ret);
-        $log->append(array('cmd' => $cmd, 'return' => $ret, 'output' => $out));
+        $log->append(['cmd' => $cmd, 'return' => $ret, 'output' => $out]);
 
         if ($ret != 0) {
             $msg = 'Error #' . $ret . ' while executing "' . $cmd . '"';
